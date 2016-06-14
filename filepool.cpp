@@ -2,9 +2,8 @@
 #include <QDir>
 #include <QMutexLocker>
 
-FilePool::FilePool(const QString &folder, const QString &suffix)
+FilePool::FilePool(const QString &folder)
 {
-    suffix_ = suffix;
     findFileInFolderAndSubfolders(folder);
 }
 void FilePool::findFileInFolderAndSubfolders(const QString &folder)
@@ -19,8 +18,7 @@ void FilePool::findFileInFolderAndSubfolders(const QString &folder)
             // member with the files contained in the subfolder
             findFileInFolderAndSubfolders(entry.filePath());
         }
-        else if(entry.isFile() == true
-                && entry.suffix() == suffix_) {
+        else if(entry.isFile() == true) {
             // it is a file with the right suffix,
             // Store it in the files_ member
             files_.append(entry.absoluteFilePath());

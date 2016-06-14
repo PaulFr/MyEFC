@@ -1,14 +1,12 @@
 #ifndef ZIPPEDBUFFER_H
 #define ZIPPEDBUFFER_H
 
-#include "ecf_library_global.h"
-
 #include <QString>
 #include <QByteArray>
 
 class QDataStream;
 
-class ECF_LIBRARYSHARED_EXPORT ZippedBuffer
+class ZippedBuffer
 {
 public:
     ZippedBuffer();

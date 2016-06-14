@@ -45,10 +45,6 @@ private:
      */
     QStringList files_;
     /**
-     * @brief suffix_ suffix des fichiers recherchés
-     */
-    QString suffix_;
-    /**
      * @brief mutex_ utilsé lors de l'accés à files_
      */
     QMutex mutex_;

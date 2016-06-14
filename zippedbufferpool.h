@@ -4,8 +4,10 @@
 #include "zippedbuffer.h"
 #include <list>
 #include <QPair>
+#include <Qmutex>
+#include <QWaitCondition>
 
-class ECF_LIBRARYSHARED_EXPORT ZippedBufferPool
+class ZippedBufferPool
 {
 public:
     ZippedBufferPool();
@@ -15,6 +17,8 @@ public:
 private:
     std::list<ZippedBuffer> buffers_;
     bool done_;
+    QMutex mutex_;
+    QWaitCondition waitCond_;
 };
 
 #endif // ZIPPEDBUFFERPOOL_H
