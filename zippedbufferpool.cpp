@@ -27,3 +27,5 @@ QPair<bool,ZippedBuffer> ZippedBufferPool::tryGet()
     buffers_.pop_front();
     return QPair<bool,ZippedBuffer>(true,buffer);
 }
+
+

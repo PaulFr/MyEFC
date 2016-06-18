@@ -22,4 +22,7 @@ private:
     QByteArray data_;
 };
 
+QDataStream &operator <<(QDataStream &out, const ZippedBuffer &zippedBuffer);
+QDataStream &operator >>(QDataStream &in, ZippedBuffer &zippedBuffer);
+
 #endif // ZIPPEDBUFFER_H

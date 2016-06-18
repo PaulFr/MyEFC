@@ -2,6 +2,9 @@
 #define ZIPPER_H
 
 #include <QThread>
+#include <QFile>
+#include <QIODevice>
+#include <QDataStream>
 
 #include "filepool.h"
 #include "zippedbuffer.h"
@@ -16,8 +19,9 @@ public:
     virtual void run();
 
 private:
+    bool compressFile(const QString &path, ZippedBuffer &buffer);
     FilePool &filePool_;
-    ZippedBuffer &zippedBufferPool_;
+    ZippedBufferPool &zippedBufferPool_;
 };
 
 #endif // ZIPPER_H

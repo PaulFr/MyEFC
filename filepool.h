@@ -18,7 +18,7 @@ public:
      * @param folder répertoire à partir duquel les fichiers sont recherchés
      * @param suffix des fichiers devant être ajoutés dans le pool
      */
-    FilePool(const QString &folder, const QString &suffix);
+    FilePool(const QString &folder);
     /**
      * @brief count retourne le nombre de fichiers restant dans le pool
      * @return

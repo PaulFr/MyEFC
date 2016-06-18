@@ -1,35 +1,43 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QtWidgets>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QWidget(parent)
+MainWindow::MainWindow(EpsiFileCompressor &efc, QWidget *parent) :
+    QWidget(parent), efc_(efc)
 {
-
-        browseButton = new QPushButton(tr("&Parcourir..."), this);
-        connect(browseButton, &QAbstractButton::clicked, this, &MainWindow::browse);
-        compressButton = new QPushButton(tr("&Compresser"), this);
-        connect(compressButton, &QAbstractButton::clicked, this, &MainWindow::find);
-
-        toComboBox = createComboBox();
-        fromComboBox = createComboBox();
-
-        toLabel = new QLabel(tr("vers :"));
-        fromLabel = new QLabel(tr("Dossier à compresser :"));
-
-        QGridLayout *mainLayout = new QGridLayout;
-           mainLayout->addWidget(fromLabel, 0, 0);
-           mainLayout->addWidget(fromComboBox, 0, 1);
-           mainLayout->addWidget(browseButton, 0, 2);
-           mainLayout->addWidget(toLabel, 1, 0);
-           mainLayout->addWidget(toComboBox, 1, 1, 1, 2);
-
-           mainLayout->addWidget(compressButton, 3, 2);
-           setLayout(mainLayout);
-
-           setWindowTitle(tr("My EPSI File Compressor"));
-           resize(500, 105);
+       init();
 }
+
+
+
+void MainWindow::init(){
+    browseButton = new QPushButton(tr("&Parcourir..."), this);
+    connect(browseButton, &QAbstractButton::clicked, this, &MainWindow::browse);
+    compressButton = new QPushButton(tr("&Compresser"), this);
+    connect(compressButton, &QAbstractButton::clicked, this, &MainWindow::compress);
+
+    toComboBox = createComboBox();
+    fromComboBox = createComboBox();
+
+    toLabel = new QLabel(tr("vers :"));
+    fromLabel = new QLabel(tr("Dossier à compresser :"));
+
+    progressBar = new QProgressBar(this);
+    progressBar->setValue(0);
+
+    QGridLayout *mainLayout = new QGridLayout;
+       mainLayout->addWidget(fromLabel, 0, 0);
+       mainLayout->addWidget(fromComboBox, 0, 1);
+       mainLayout->addWidget(browseButton, 0, 2);
+       mainLayout->addWidget(toLabel, 1, 0);
+       mainLayout->addWidget(toComboBox, 1, 1, 1, 2);
+       mainLayout->addWidget(progressBar, 4, 0,1, 3);
+       mainLayout->addWidget(compressButton, 3, 2);
+       setLayout(mainLayout);
+
+       setWindowTitle(tr("My EPSI File Compressor"));
+       resize(500, 105);
+}
+
 
 void MainWindow::browse()
 {
@@ -40,16 +48,19 @@ void MainWindow::browse()
         if (fromComboBox->findText(directory) == -1)
             fromComboBox->addItem(directory);
         fromComboBox->setCurrentIndex(fromComboBox->findText(directory));
-        QString toFileName = directory.split('/').takeLast()+".ecf";
+        QStringList sDir = directory.split('/');
+        QString filename = sDir.takeLast();
+        QString path = sDir.join('/');
+        QString toFileName = path+"/"+filename+".ecf";
         if(toComboBox->findText(toFileName) == -1)
             toComboBox->addItem(toFileName);
         toComboBox->setCurrentIndex(toComboBox->findText(toFileName));
     }
 }
 
-void MainWindow::find()
+void MainWindow::compress()
 {
-
+    efc_.compressFolder(fromComboBox->currentText(), toComboBox->currentText(), progressBar);
 }
 
 

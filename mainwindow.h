@@ -6,11 +6,14 @@
 #include <QWidget>
 #include <QDir>
 
+#include "epsifilecompressor.h"
+
 class QComboBox;
 class QLabel;
 class QPushButton;
 class QTableWidget;
 class QTableWidgetItem;
+class QProgressBar;
 
 
 
@@ -19,12 +22,13 @@ class MainWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    MainWindow(EpsiFileCompressor &efc, QWidget *parent = 0);
     ~MainWindow();
 
 private slots:
+    void init();
     void browse();
-    void find();
+    void compress();
 
 private:
     QStringList findFiles(const QStringList &files, const QString &text);
@@ -32,6 +36,8 @@ private:
 
     QComboBox *toComboBox;
     QComboBox *fromComboBox;
+
+    QProgressBar *progressBar;
 
     QLabel *toLabel;
     QLabel *fromLabel;
@@ -42,6 +48,8 @@ private:
     QTableWidget *filesTable;
 
     QDir currentDir;
+
+    EpsiFileCompressor &efc_;
 };
 
 #endif // MAINWINDOW_H

@@ -28,3 +28,17 @@ const QByteArray &ZippedBuffer::get_data() const
 {
     return data_;
 }
+
+QDataStream &operator <<(QDataStream &out, const ZippedBuffer &zippedBuffer)
+{
+    zippedBuffer.write(out);
+
+    return out;
+}
+
+QDataStream &operator >>(QDataStream &in, ZippedBuffer &zippedBuffer)
+{
+    zippedBuffer.read(in);
+
+    return in;
+}
