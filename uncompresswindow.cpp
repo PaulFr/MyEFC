@@ -10,6 +10,7 @@ UncompressWindow::UncompressWindow(EpsiFileCompressor &efc, QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->browse, &QAbstractButton::clicked, this, &UncompressWindow::browse);
+    connect(ui->uncompress, &QAbstractButton::clicked, this, &UncompressWindow::uncompress);
 }
 
 void UncompressWindow::browse()
@@ -22,6 +23,10 @@ void UncompressWindow::browse()
             ui->ecfFile->addItem(directory);
         ui->ecfFile->setCurrentIndex(ui->ecfFile->findText(directory));
     }
+}
+
+void UncompressWindow::uncompress(){
+    efc_.uncompressFile(ui->ecfFile->currentText());
 }
 
 UncompressWindow::~UncompressWindow()

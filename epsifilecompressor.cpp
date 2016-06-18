@@ -1,5 +1,7 @@
 #include "epsifilecompressor.h"
 #include <QProgressBar>
+#include <QFileInfo>
+#include <QDir>
 
 EpsiFileCompressor::EpsiFileCompressor(int nbThreads):nbThreads_(nbThreads)
 {
@@ -37,5 +39,41 @@ void EpsiFileCompressor::compressFolder(const QString &folderPath, const QString
     writer->wait();
     delete writer;
     progress->setValue(100);
+
+}
+
+bool EpsiFileCompressor::uncompressFile(const QString &filePath){
+    QByteArray zippedData;
+    QFile ecf(filePath);
+
+    QStringList sDir = filePath.split('.');
+    sDir.pop_back();
+    QString dirPath = sDir.join('.');
+
+    QDir dir(dirPath);
+    if(!ecf.open(QIODevice::ReadOnly))
+        return false;
+
+    zippedData = ecf.readAll();
+    QDataStream fileStream(zippedData);
+
+    while(!fileStream.atEnd()){
+        ZippedBuffer buffer;
+        fileStream >> buffer;
+
+        QFileInfo fileInfo(dirPath + dir.relativeFilePath(buffer.get_filename()));
+
+        if (!QDir(fileInfo.path()).exists()){
+            QDir().mkpath(fileInfo.path());
+        }
+
+
+        QFile uncompressedFile(fileInfo.filePath());
+        uncompressedFile.open(QIODevice::WriteOnly);
+        uncompressedFile.write(qUncompress(buffer.get_data()));
+
+        uncompressedFile.close();
+        return true;
+    }
 
 }

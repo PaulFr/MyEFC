@@ -13,6 +13,7 @@ public:
     EpsiFileCompressor();
     EpsiFileCompressor(int nbThreads);
     void compressFolder(const QString &folderPath, const QString &targetFile, QProgressBar *progress);
+    bool uncompressFile(const QString &filePath);
 
 private:
     int nbThreads_;

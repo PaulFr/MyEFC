@@ -27,6 +27,7 @@ private:
     Ui::UncompressWindow *ui;
     EpsiFileCompressor &efc_;
     void browse();
+    void uncompress();
 };
 
 #endif // UNCOMPRESSWINDOW_H
