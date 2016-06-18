@@ -19,7 +19,9 @@ SOURCES += main.cpp\
         zippedbufferpool.cpp\
     zipper.cpp \
     epsifilecompressor.cpp \
-    writer.cpp
+    writer.cpp \
+    ecfwindow.cpp \
+    uncompresswindow.cpp
 
 HEADERS  += mainwindow.h\
           filepool.h\
@@ -27,6 +29,10 @@ HEADERS  += mainwindow.h\
           zippedbufferpool.h\
     zipper.h \
     epsifilecompressor.h \
-    writer.h
+    writer.h \
+    ecfwindow.h \
+    uncompresswindow.h
 
-FORMS    +=
+FORMS    += \
+    ecfwindow.ui \
+    uncompresswindow.ui
