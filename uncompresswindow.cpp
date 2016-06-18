@@ -26,7 +26,13 @@ void UncompressWindow::browse()
 }
 
 void UncompressWindow::uncompress(){
-    efc_.uncompressFile(ui->ecfFile->currentText());
+    if(efc_.uncompressFile(ui->ecfFile->currentText())){
+        QMessageBox::information(this, tr("My EPSI File Compressor"),
+                                      tr("L'archive a bien été décompressée"));
+    }else{
+        QMessageBox::critical(this, tr("My EPSI File Compressor"),
+                                      tr("Une erreur est survenue lors de la décompression de l'archive..."));
+    }
 }
 
 UncompressWindow::~UncompressWindow()
